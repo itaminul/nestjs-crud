@@ -19,8 +19,12 @@ export class TasksService {
       title,
       description,
       status: TaskStatus.OPEN,
- };
+    };
     this.tasks.push(task);
     return task;
+  }
+
+  deleteTask(id: string): void {
+    this.tasks = this.tasks.filter((task) => task.id !== id);
   }
 }
