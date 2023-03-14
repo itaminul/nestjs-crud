@@ -14,6 +14,7 @@ import { TasksService } from './tasks.service';
 import { v4 as uuid } from 'uuid';
 import { CreateTaskDto } from './dto/create-task-dto';
 import { GetTaskFilterDto } from './dto/get-task-filter-dto';
+import { UpdateTaskStatusDto } from './dto/update-task-status-dto';
 //start 19
 @Controller('tasks')
 export class TasksController {
@@ -44,14 +45,20 @@ export class TasksController {
 
   @Delete('/:id')
   deleteTask(@Param('id') id: string): void {
-    return this.taskService.deleteTask(id);
+    const found = this.getTaskById(id);
+    if (!found) {
+      throw new NotFoundException(`Task with that ID "${id}" not found`);
+    } else {
+      return this.taskService.deleteTask(id);
+    }
   }
 
   @Patch('/:id/status')
   updateTaskStatus(
     @Param('id') id: string,
-    @Body('status') status: TaskStatus,
+    @Body() updateTaskStatusDto: UpdateTaskStatusDto ,
   ): Task {
+    const { status } =  updateTaskStatusDto;
     return this.taskService.updateTaskStatus(id, status);
   }
 }
