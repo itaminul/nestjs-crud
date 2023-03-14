@@ -11,11 +11,11 @@ export class TasksService {
   }
 
   getTasksWithFilters(filterDto: GetTaskFilterDto): Task[] {
-    const { status, search} = filterDto;
+    const { status, search } = filterDto;
     let tasks = this.getAllTask();
 
-    if(status) {
-      tasks = tasks.filter((task) => task.status === status)
+    if (status) {
+      tasks = tasks.filter((task) => task.status === status);
     }
 
     if (search) {
